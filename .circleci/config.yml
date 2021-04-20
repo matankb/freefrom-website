@@ -3,17 +3,17 @@
 # Check https://circleci.com/docs/2.0/language-php/ for more details
 #
 
-version: 2.0
+version: 2.1
+
 orbs:
-  node: circleci/node@14.16
+  node: circleci/node@4.2.1
+
 jobs:
   build:
-    machine:
-      image: circleci/classic:latest
-    branches:
-          only:
-            - master
+    docker:
+      - image: cimg/base:stable
     steps:
+      - checkout
       - node/install
       - node/install-packages
       - run:
@@ -21,10 +21,18 @@ jobs:
           command: |
             sudo apt-get update;
             sudo apt-get install lftp;
-      - checkout
       - run:
-        name: Compile SCS
-        command: npm run compile:css
-      - run:
-          name: Send Via SFTP
-          # command: lftp sftp://{USERNAME}:{PASSWORD}@sftp.pressable.com -e "mirror -v -R --exclude .git/ --exclude .circleci/ ./ ./wp-content/themes/; quit"
+          name: Compile SCS
+          command: npm run compile:css
+      # - run:
+      #     name: Send Via SFTP
+      #     command: lftp sftp://{USERNAME}:{PASSWORD}@sftp.pressable.com -e "mirror -v -R --exclude .git/ --exclude .circleci/ ./ ./wp-content/themes/; quit"
+
+workflows:
+  build-workflow:
+    jobs:
+      - build:
+          filters:  # using regex filters requires the entire branch to match
+            branches:
+              only:  # only branches matching the below regex filters will run
+                - main
