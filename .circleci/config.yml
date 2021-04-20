@@ -4,6 +4,8 @@
 #
 
 version: 2.0
+orbs:
+  node: circleci/node@14.16
 jobs:
   build:
     machine:
@@ -12,6 +14,8 @@ jobs:
           only:
             - master
     steps:
+      - node/install
+      - node/install-packages
       - run:
           name: Install LFTP
           command: |
@@ -19,5 +23,8 @@ jobs:
             sudo apt-get install lftp;
       - checkout
       - run:
+        name: Compile SCS
+        command: npm run compile:css
+      - run:
           name: Send Via SFTP
-          command: lftp sftp://{USERNAME}:{PASSWORD}@sftp.pressable.com -e "mirror -v -R --exclude .git/ --exclude .circleci/ ./ ./wp-content/themes/; quit"
+          # command: lftp sftp://{USERNAME}:{PASSWORD}@sftp.pressable.com -e "mirror -v -R --exclude .git/ --exclude .circleci/ ./ ./wp-content/themes/; quit"
