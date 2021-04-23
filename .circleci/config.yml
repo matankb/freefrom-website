@@ -14,7 +14,8 @@ jobs:
       - image: cimg/base:stable
     steps:
       - checkout
-      - node/install
+      - node/install:
+          lts: true
       - node/install-packages
       - run:
           name: Install LFTP
@@ -24,6 +25,9 @@ jobs:
       - run:
           name: Compile SCS
           command: npm run compile:css
+      - run:
+          name: Output
+          command: cat style.css
       # - run:
       #     name: Send Via SFTP
       #     command: lftp sftp://{USERNAME}:{PASSWORD}@sftp.pressable.com -e "mirror -v -R --exclude .git/ --exclude .circleci/ ./ ./wp-content/themes/; quit"
