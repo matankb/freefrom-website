@@ -27,7 +27,7 @@ jobs:
           command: npm run compile:css
       - run:
           name: Send Via SFTP
-          command: lftp sftp://{USERNAME}:{PASSWORD}@sftp.pressable.com -e "mirror -v -R --exclude .git/ --exclude .circleci/ ./ ./wp-content/themes/; quit"
+          command: lftp sftp://${USERNAME}:${PASSWORD}@sftp.pressable.com:22 -e "set sftp:auto-confirm yes; mirror -v -R --exclude .git/ --exclude .circleci/ --exclude node_modules ./ ./wp-content/themes/${theme}; quit"
 
 workflows:
   build-workflow:
@@ -36,4 +36,4 @@ workflows:
           filters: 
             branches:
               only:  # build will only run on push/merge to main
-                - main
+                - circleci

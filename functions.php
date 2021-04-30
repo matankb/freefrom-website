@@ -178,3 +178,19 @@ if ( defined( 'JETPACK__VERSION' ) ) {
 	require get_template_directory() . '/inc/jetpack.php';
 }
 
+/**
+ * Add block patterns
+ */
+
+function freeform_register_block_patterns() {
+	register_block_pattern(
+		'tabor/call-to-action-gallery',
+		array(
+			'title'       => __( 'Call to Action Gallery', 'textdomain' ),
+			'description' => _x( 'A call to action with a beautiful two-column gallery below.', 'Block pattern description', 'textdomain' ),
+			'content'     => "<!-- wp:heading {\"align\":\"center\"} -->\n<h2 class=\"has-text-align-center\"><strong>Our approach reflects the people we serve. We are diverse, yet the same.</strong></h2>\n<!-- /wp:heading -->\n\n<!-- wp:buttons {\"align\":\"center\"} -->\n<div class=\"wp-block-buttons aligncenter\"><!-- wp:button {\"borderRadius\":7,\"style\":{\"color\":{\"gradient\":\"linear-gradient(135deg,rgb(0,0,0) 0%,rgb(0,0,0) 50%,rgb(0,0,0) 100%)\"}}} -->\n<div class=\"wp-block-button\"><a class=\"wp-block-button__link has-background\" style=\"border-radius:7px;background:linear-gradient(135deg,rgb(0,0,0) 0%,rgb(0,0,0) 50%,rgb(0,0,0) 100%)\">Learn More</a></div>\n<!-- /wp:button --></div>\n<!-- /wp:buttons -->\n\n<!-- wp:spacer {\"height\":59} -->\n<div style=\"height:59px\" aria-hidden=\"true\" class=\"wp-block-spacer\"></div>\n<!-- /wp:spacer -->\n\n<!-- wp:gallery {\"ids\":[621,624],\"sizeSlug\":\"full\",\"align\":\"wide\"} -->\n<figure class=\"wp-block-gallery alignwide columns-2 is-cropped\"><ul class=\"blocks-gallery-grid\"><li class=\"blocks-gallery-item\"><figure><img src=\"https://iceberg.test/wp-content/uploads/2020/07/home-image-3.jpg\" alt=\"\" data-id=\"621\" class=\"wp-image-621\"/></figure></li><li class=\"blocks-gallery-item\"><figure><img src=\"https://iceberg.test/wp-content/uploads/2020/07/home-image-2.jpg\" alt=\"\" data-id=\"624\" data-full-url=\"https://iceberg.test/wp-content/uploads/2020/07/home-image-2.jpg\" data-link=\"https://iceberg.test/?attachment_id=624\" class=\"wp-image-624\"/></figure></li></ul></figure>\n<!-- /wp:gallery -->",
+			'categories'  => array( 'hero' ),
+		)
+	);
+}
+add_action( 'init', 'tabor_register_block_patterns' );
